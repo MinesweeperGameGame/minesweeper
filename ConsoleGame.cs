@@ -8,8 +8,8 @@ struct Object
 {
     public int x;
     public int y;
-    public int maxX;
-    public int maxY;
+    public int mapLengthX;
+    public int mapLengthY;
 }
 
 class ConsoleGame
@@ -22,20 +22,20 @@ class ConsoleGame
         Object playerCords = new Object();
 
         //Map Size[x, y] (Minimum Y = 10 !!!)
-        playerCords.maxY = 11;
-        playerCords.maxX = playerCords.maxY * 2;
+        playerCords.mapLengthY = 11;
+        playerCords.mapLengthX = playerCords.mapLengthY * 2;
 
         //Player's Start Cordinates(In The Middle of MAP)
-        playerCords.x = playerCords.maxX / 2;
-        playerCords.y = playerCords.maxY / 2;
+        playerCords.x = playerCords.mapLengthX / 2;
+        playerCords.y = playerCords.mapLengthY / 2;
 
         //Console Size
-        int size = playerCords.maxY;
+        int size = playerCords.mapLengthY;
         Console.BufferHeight = Console.WindowHeight = size + 7;
         Console.BufferWidth = Console.WindowWidth = size*2 + 7;
 
         //Count Of Dollars
-        int CountOfDollars = playerCords.maxY;
+        int CountOfDollars = playerCords.mapLengthY;
 
         //Print Startup text
         PrintStartupText();
@@ -47,13 +47,13 @@ class ConsoleGame
         List<KeyValuePair<int, int>> dollarsCords = new List<KeyValuePair<int, int>>();
 
         //Spawn Random Dollars On The Map
-        dollarsCords = SpawnRandomDollars(CountOfDollars, playerCords.maxX, playerCords.maxY);
+        dollarsCords = SpawnRandomDollars(CountOfDollars, playerCords.mapLengthX, playerCords.mapLengthY);
 
         //Print Dollars
         score = PrintDollars(dollarsCords, playerCords.x, playerCords.y, score);
 
         //Print Score and Frame
-        PrintScoreAndFrame(score, playerCords.maxY, playerCords.maxX);
+        PrintScoreAndFrame(score, playerCords.mapLengthY, playerCords.mapLengthX);
 
         Stopwatch collectTimer = new Stopwatch();
         collectTimer.Start();
@@ -75,7 +75,7 @@ class ConsoleGame
                 }
                 else if (pressedKey.Key == ConsoleKey.DownArrow)
                 {
-                    if (playerCords.y < playerCords.maxY)
+                    if (playerCords.y < playerCords.mapLengthY)
                     {
                         playerCords.y++;
                         break;
@@ -91,7 +91,7 @@ class ConsoleGame
                 }
                 else if (pressedKey.Key == ConsoleKey.RightArrow)
                 {
-                    if (playerCords.x < playerCords.maxX)
+                    if (playerCords.x < playerCords.mapLengthX)
                     {
                         playerCords.x++;
                         break;
@@ -106,16 +106,16 @@ class ConsoleGame
 
             PrintPlayer(playerCords.x, playerCords.y);
 
-            PrintScoreAndFrame(score, playerCords.maxY, playerCords.maxX);
+            PrintScoreAndFrame(score, playerCords.mapLengthY, playerCords.mapLengthX);
 
             if (score == CountOfDollars)
             {
                 collectTimer.Stop();
                 break;
             }
-            Thread.Sleep(5);
+            Thread.Sleep(150);
         }
-        PrintYouWin(playerCords.maxY, collectTimer);
+        PrintYouWin(playerCords.mapLengthY, collectTimer);
     }
 
     public static void PrintStartupText()
@@ -150,7 +150,7 @@ class ConsoleGame
 
     public static int PrintDollars(List<KeyValuePair<int, int>> list, int x, int y, int score)
     {
-        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.ForegroundColor = ConsoleColor.Green;
         for (int i = 0; i < list.Count; i++)
         {
             if (list[i].Key == x && list[i].Value == y)
