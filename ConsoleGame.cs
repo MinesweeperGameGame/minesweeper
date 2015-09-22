@@ -4,34 +4,62 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
-struct Object
+struct Cordinates
 {
     public int x;
     public int y;
     public int mapLengthX;
     public int mapLengthY;
+
+    public void putCordinates(int p1, int p2)
+    {
+        x = p1;
+        y = p2;
+    }
+
+    public void moveLeft()
+    {
+        x--;
+    }
+
+    public void moveRight()
+    {
+        x++;
+    }
+
+    public void moveUp()
+    {
+        y--;
+    }
+
+    public void moveDown()
+    {
+        y++;
+    }
 }
 
 class ConsoleGame
 {
+    //Declare PlayerCords Obj
+    public static Cordinates playerCords = new Cordinates();
+
     static void Main()
-    {   
+    {
+        //Hide Cursor Visible
+        Console.CursorVisible = false;
+
         int score = 0;
 
-        //Declare PlayerCords Obj
-        Object playerCords = new Object();
-
         //Map Size[x, y] (Minimum y = 10 !!!)
-        playerCords.mapLengthY = 10;
+        playerCords.mapLengthY = 15;
         playerCords.mapLengthX = playerCords.mapLengthY * 2;
-
-        //Player's Start Cordinates(In The Middle of MAP)
-        playerCords.x = playerCords.mapLengthX / 2;
-        playerCords.y = playerCords.mapLengthY / 2;
 
         //Console Size
         Console.BufferHeight = Console.WindowHeight = playerCords.mapLengthY + 7;
         Console.BufferWidth = Console.WindowWidth = playerCords.mapLengthX + 7;
+
+        //Player's Start Cordinates(In The Middle of MAP)
+        playerCords.putCordinates(playerCords.mapLengthX / 2, playerCords.mapLengthY / 2);
 
         //Count Of Dollars
         int CountOfDollars = playerCords.mapLengthY;
@@ -57,47 +85,13 @@ class ConsoleGame
         Stopwatch collectTimer = new Stopwatch();
         collectTimer.Start();
 
+        //main loop
         while (true)
         {
-            //While Player doesn't move TRUE ---> else FALSE
-            while (true)
-            {
-                ConsoleKeyInfo pressedKey = Console.ReadKey();
+            //Player Moves
+            playerMoves();
 
-                if (pressedKey.Key == ConsoleKey.UpArrow)
-                {
-                    if (playerCords.y > 0)
-                    {
-                        playerCords.y--;
-                        break;
-                    }
-                }
-                else if (pressedKey.Key == ConsoleKey.DownArrow)
-                {
-                    if (playerCords.y < playerCords.mapLengthY)
-                    {
-                        playerCords.y++;
-                        break;
-                    }
-                }
-                else if (pressedKey.Key == ConsoleKey.LeftArrow)
-                {
-                    if (playerCords.x > 0)
-                    {
-                        playerCords.x--;
-                        break;
-                    }
-                }
-                else if (pressedKey.Key == ConsoleKey.RightArrow)
-                {
-                    if (playerCords.x < playerCords.mapLengthX)
-                    {
-                        playerCords.x++;
-                        break;
-                    }
-                }
-                Console.SetCursorPosition(0, 0);
-            }
+            //Clear Console Before Print Items
             Console.Clear();
 
             //Print Dollars and Update Score
@@ -112,6 +106,7 @@ class ConsoleGame
                 collectTimer.Stop();
                 break;
             }
+
             Thread.Sleep(100);
         }
         PrintYouFinished(playerCords.mapLengthY, collectTimer);
@@ -140,6 +135,67 @@ class ConsoleGame
         Console.WriteLine("] TO START");
         Console.ReadLine();
         Console.Clear();
+    }
+
+    public static void playerMoves()
+    {
+        bool isPlayerMove = false;
+
+        //While Player doesn't move TRUE ---> else FALSE
+        while (!isPlayerMove)
+        {
+            ConsoleKeyInfo pressedKey = Console.ReadKey(true);
+            switch(pressedKey.Key)
+            {
+                case ConsoleKey.UpArrow:
+                    isPlayerMove = true;
+                    if (playerCords.y > 0)
+                    {
+                        playerCords.moveUp();
+                    }
+                    else
+                    {
+                        playerCords.y = playerCords.mapLengthY;
+                    }
+                    break;
+
+                case ConsoleKey.DownArrow:
+                    isPlayerMove = true;
+                    if (playerCords.y < playerCords.mapLengthY)
+                    {
+                        playerCords.moveDown();
+                    }
+                    else
+                    {
+                        playerCords.y = 0;
+                    }
+                    break;
+
+                case ConsoleKey.LeftArrow:
+                    isPlayerMove = true;
+                    if (playerCords.x > 0)
+                    {
+                        playerCords.moveLeft();
+                    }
+                    else
+                    {
+                        playerCords.x = playerCords.mapLengthX;
+                    }
+                    break;
+
+                case ConsoleKey.RightArrow:
+                    isPlayerMove = true;
+                    if (playerCords.x < playerCords.mapLengthX)
+                    {
+                        playerCords.moveRight();
+                    }
+                    else
+                    {
+                        playerCords.x = 0;
+                    }
+                    break;
+            }
+        }
     }
 
     public static void PrintPlayer(int x, int y)
