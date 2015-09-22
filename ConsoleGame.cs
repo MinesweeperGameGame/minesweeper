@@ -119,9 +119,11 @@ class ConsoleGame
 
     public static void PrintStartupText()
     {
-        Console.Write("Collect all the ");
+        Console.Write("Collect ");
         Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("DOLLARS($)\n");
+        Console.WriteLine("DOLLARS($)");
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine("/for the shortest time/\n");
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine("Controls:");
         Console.ForegroundColor = ConsoleColor.Yellow;
