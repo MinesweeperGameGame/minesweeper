@@ -45,13 +45,20 @@ class ConsoleGame
 
     static void Main()
     {
+        //Choose Level Console Size
+        Console.BufferWidth = Console.WindowWidth = 70;
+        //Choose Level
+        ChooseLevel();
+
         //Hide Cursor Visible
         Console.CursorVisible = false;
 
         int score = 0;
 
-        //Map Size[x, y] (Minimum y = 10 !!!)
-        playerCords.mapLengthY = 15;
+        //List of Cordinates of Dollars
+        List<KeyValuePair<int, int>> dollarsCords = new List<KeyValuePair<int, int>>();
+
+        //Map Size[x, y] 
         playerCords.mapLengthX = playerCords.mapLengthY * 2;
 
         //Console Size
@@ -68,16 +75,13 @@ class ConsoleGame
         PrintStartupText();
 
         //Print Player
-        PrintPlayer(playerCords.x, playerCords.y);
-
-        //List of Cordinates of Dollars
-        List<KeyValuePair<int, int>> dollarsCords = new List<KeyValuePair<int, int>>();
+        PrintPlayer(playerCords.x, playerCords.y, score, dollarsCords);
 
         //Spawn Random Dollars On The Map
         dollarsCords = SpawnRandomDollars(CountOfDollars, playerCords.mapLengthX, playerCords.mapLengthY);
 
         //Print Dollars
-        score = PrintDollars(dollarsCords, playerCords.x, playerCords.y, score);
+        PrintDollars(dollarsCords);
 
         //Print Score and Frame
         PrintScoreAndFrame(score, playerCords.mapLengthY, playerCords.mapLengthX);
@@ -91,15 +95,12 @@ class ConsoleGame
             //Player Moves
             playerMoves();
 
-            //Clear Console Before Print Items
-            Console.Clear();
+            //Update Score
+            //-----
 
-            //Print Dollars and Update Score
-            score = PrintDollars(dollarsCords, playerCords.x, playerCords.y, score);
+            score = PrintPlayer(playerCords.x, playerCords.y, score, dollarsCords);
 
-            PrintPlayer(playerCords.x, playerCords.y);
-
-            PrintScoreAndFrame(score, playerCords.mapLengthY, playerCords.mapLengthX);
+            PrintScore(score, playerCords.mapLengthY);
 
             if (score == CountOfDollars)
             {
@@ -107,9 +108,36 @@ class ConsoleGame
                 break;
             }
 
-            Thread.Sleep(100);
+            Thread.Sleep(25);
         }
         PrintYouFinished(playerCords.mapLengthY, collectTimer);
+    }
+
+    public static void ChooseLevel()
+    {
+        Console.Write("Write 1, 2, 3 or 4 to choose level: ");
+        ConsoleKeyInfo level = Console.ReadKey(false);
+        if (level.Key == ConsoleKey.D1)
+        {
+            playerCords.mapLengthY = 10;
+        }
+        else if (level.Key == ConsoleKey.D2)
+        {
+            playerCords.mapLengthY = 15;
+        }
+        else if (level.Key == ConsoleKey.D3)
+        {
+            playerCords.mapLengthY = 20;
+        }
+        else if (level.Key == ConsoleKey.D4)
+        {
+            playerCords.mapLengthY = 25;
+        }
+        else
+        {
+            playerCords.mapLengthY = 15;
+        }
+        Console.Clear();
     }
 
     public static void PrintStartupText()
@@ -145,9 +173,11 @@ class ConsoleGame
         while (!isPlayerMove)
         {
             ConsoleKeyInfo pressedKey = Console.ReadKey(true);
+            Console.SetCursorPosition(playerCords.x, playerCords.y);
             switch (pressedKey.Key)
             {
                 case ConsoleKey.UpArrow:
+                    Console.Write(" ");
                     isPlayerMove = true;
                     if (playerCords.y > 0)
                     {
@@ -160,6 +190,7 @@ class ConsoleGame
                     break;
 
                 case ConsoleKey.DownArrow:
+                    Console.Write(" ");
                     isPlayerMove = true;
                     if (playerCords.y < playerCords.mapLengthY)
                     {
@@ -172,6 +203,7 @@ class ConsoleGame
                     break;
 
                 case ConsoleKey.LeftArrow:
+                    Console.Write(" ");
                     isPlayerMove = true;
                     if (playerCords.x > 0)
                     {
@@ -184,6 +216,7 @@ class ConsoleGame
                     break;
 
                 case ConsoleKey.RightArrow:
+                    Console.Write(" ");
                     isPlayerMove = true;
                     if (playerCords.x < playerCords.mapLengthX)
                     {
@@ -198,31 +231,34 @@ class ConsoleGame
         }
     }
 
-    public static void PrintPlayer(int x, int y)
+    public static int PrintPlayer(int x, int y, int score, List<KeyValuePair<int, int>> list)
     {
         Console.ForegroundColor = ConsoleColor.Red;
         Console.SetCursorPosition(x, y);
         Console.Write("O");
+        if(list.Contains(new KeyValuePair<int, int>(x, y)))
+        {
+            list.Remove(new KeyValuePair<int, int>(x, y));
+            score++;
+        }
+        return score;
     }
 
-    public static int PrintDollars(List<KeyValuePair<int, int>> list, int x, int y, int score)
+    public static void PrintDollars(List<KeyValuePair<int, int>> list)
     {
         Console.ForegroundColor = ConsoleColor.Green;
         for (int i = 0; i < list.Count; i++)
         {
-            if (list[i].Key == x && list[i].Value == y)
-            {
-                score++;
-                list.Remove(list[i]);
-                i--;
-            }
-            else
-            {
                 Console.SetCursorPosition(list[i].Key, list[i].Value);
                 Console.Write("$");
-            }
         }
-        return score;
+    }
+
+    public static void PrintScore(int score, int y)
+    {
+        Console.SetCursorPosition(19, y + 2);
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.Write(score);
     }
 
     public static void PrintScoreAndFrame(int score, int y, int x)
@@ -270,7 +306,14 @@ class ConsoleGame
     {
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.SetCursorPosition(0, y + 3);
-        Console.WriteLine("You finished!\nTime: {0}seconds", timer.Elapsed.Seconds);
+        if(timer.Elapsed.Minutes == 0)
+        {
+            Console.WriteLine("You finished!\nTime: {0} seconds", timer.Elapsed.Seconds);
+        }
+        else
+        {
+            Console.WriteLine("You finished!\nTime: {0} min {1} sec", timer.Elapsed.Minutes, timer.Elapsed.Seconds);
+        }
         while (true)
         {
             Console.SetCursorPosition(0, y + 5);
