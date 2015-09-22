@@ -45,13 +45,13 @@ class ConsoleGame
 
     static void Main()
     {
+        //Hide Cursor Visible
+        Console.CursorVisible = false;
+
         //Choose Level Console Size
         Console.BufferWidth = Console.WindowWidth = 70;
         //Choose Level
         ChooseLevel();
-
-        //Hide Cursor Visible
-        Console.CursorVisible = false;
 
         int score = 0;
 
@@ -115,21 +115,21 @@ class ConsoleGame
 
     public static void ChooseLevel()
     {
-        Console.Write("Write 1, 2, 3 or 4 to choose level: ");
+        Console.Write("----------------------------------\nPress 1, 2, 3 or 4 to choose level\n----------------------------------");
         ConsoleKeyInfo level = Console.ReadKey(false);
-        if (level.Key == ConsoleKey.D1)
+        if (level.Key == ConsoleKey.D1 || level.Key == ConsoleKey.NumPad1)
         {
             playerCords.mapLengthY = 10;
         }
-        else if (level.Key == ConsoleKey.D2)
+        else if (level.Key == ConsoleKey.D2 || level.Key == ConsoleKey.NumPad2)
         {
             playerCords.mapLengthY = 15;
         }
-        else if (level.Key == ConsoleKey.D3)
+        else if (level.Key == ConsoleKey.D3 || level.Key == ConsoleKey.NumPad3)
         {
             playerCords.mapLengthY = 20;
         }
-        else if (level.Key == ConsoleKey.D4)
+        else if (level.Key == ConsoleKey.D4 || level.Key == ConsoleKey.NumPad4)
         {
             playerCords.mapLengthY = 25;
         }
