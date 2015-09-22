@@ -21,8 +21,8 @@ class ConsoleGame
         //Declare PlayerCords Obj
         Object playerCords = new Object();
 
-        //Map Size[x, y] (Minimum Y = 10 !!!)
-        playerCords.mapLengthY = 11;
+        //Map Size[x, y] (Minimum y = 10 !!!)
+        playerCords.mapLengthY = 10;
         playerCords.mapLengthX = playerCords.mapLengthY * 2;
 
         //Player's Start Cordinates(In The Middle of MAP)
@@ -30,9 +30,8 @@ class ConsoleGame
         playerCords.y = playerCords.mapLengthY / 2;
 
         //Console Size
-        int size = playerCords.mapLengthY;
-        Console.BufferHeight = Console.WindowHeight = size + 7;
-        Console.BufferWidth = Console.WindowWidth = size*2 + 7;
+        Console.BufferHeight = Console.WindowHeight = playerCords.mapLengthY + 7;
+        Console.BufferWidth = Console.WindowWidth = playerCords.mapLengthX + 7;
 
         //Count Of Dollars
         int CountOfDollars = playerCords.mapLengthY;
@@ -113,7 +112,7 @@ class ConsoleGame
                 collectTimer.Stop();
                 break;
             }
-            Thread.Sleep(150);
+            Thread.Sleep(100);
         }
         PrintYouWin(playerCords.mapLengthY, collectTimer);
     }
