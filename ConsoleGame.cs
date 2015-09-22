@@ -4,14 +4,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
-struct Cordinates
+struct Coordinates
 {
     public int x;
     public int y;
     public int mapLengthX;
     public int mapLengthY;
 
-    public void putCordinates(int p1, int p2)
+    public void putCoordinates(int p1, int p2)
     {
         x = p1;
         y = p2;
@@ -41,7 +41,7 @@ struct Cordinates
 class ConsoleGame
 {
     //Declare PlayerCords Obj
-    public static Cordinates playerCords = new Cordinates();
+    public static Coordinates playerCords = new Coordinates();
 
     static void Main()
     {
@@ -59,7 +59,7 @@ class ConsoleGame
         Console.BufferWidth = Console.WindowWidth = playerCords.mapLengthX + 7;
 
         //Player's Start Cordinates(In The Middle of MAP)
-        playerCords.putCordinates(playerCords.mapLengthX / 2, playerCords.mapLengthY / 2);
+        playerCords.putCoordinates(playerCords.mapLengthX / 2, playerCords.mapLengthY / 2);
 
         //Count Of Dollars
         int CountOfDollars = playerCords.mapLengthY;
@@ -145,7 +145,7 @@ class ConsoleGame
         while (!isPlayerMove)
         {
             ConsoleKeyInfo pressedKey = Console.ReadKey(true);
-            switch(pressedKey.Key)
+            switch (pressedKey.Key)
             {
                 case ConsoleKey.UpArrow:
                     isPlayerMove = true;
@@ -230,8 +230,8 @@ class ConsoleGame
         Console.ForegroundColor = ConsoleColor.White;
         y++;
         Console.SetCursorPosition(0, y);
-        Console.WriteLine(new string('`', x+2));
-        Console.SetCursorPosition(0, y+1);
+        Console.WriteLine(new string('`', x + 2));
+        Console.SetCursorPosition(0, y + 1);
         Console.Write("Collected ");
         Console.ForegroundColor = ConsoleColor.Green;
         Console.Write("DOLLARS");
@@ -265,7 +265,7 @@ class ConsoleGame
 
         return list;
     }
-    
+
     public static void PrintYouFinished(int y, Stopwatch timer)
     {
         Console.ForegroundColor = ConsoleColor.Yellow;
@@ -278,4 +278,3 @@ class ConsoleGame
         }
     }
 }
-
