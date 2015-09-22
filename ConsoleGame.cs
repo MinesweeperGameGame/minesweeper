@@ -214,7 +214,7 @@ class ConsoleGame
     {
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.SetCursorPosition(0, y + 3);
-        Console.WriteLine("You WIN!\nTime: {0}seconds", timer.Elapsed.Seconds);
+        Console.WriteLine("You finished!\nTime: {0}seconds", timer.Elapsed.Seconds);
         while (true)
         {
             Console.SetCursorPosition(0, y + 5);
