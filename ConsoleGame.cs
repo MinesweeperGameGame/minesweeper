@@ -114,7 +114,7 @@ class ConsoleGame
             }
             Thread.Sleep(100);
         }
-        PrintYouWin(playerCords.mapLengthY, collectTimer);
+        PrintYouFinished(playerCords.mapLengthY, collectTimer);
     }
 
     public static void PrintStartupText()
@@ -210,7 +210,7 @@ class ConsoleGame
         return list;
     }
     
-    public static void PrintYouWin(int y, Stopwatch timer)
+    public static void PrintYouFinished(int y, Stopwatch timer)
     {
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.SetCursorPosition(0, y + 3);
