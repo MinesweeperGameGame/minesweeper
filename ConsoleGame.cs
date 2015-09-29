@@ -4,17 +4,18 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
-struct Coordinates
+struct PlayerCoordinates
 {
     public int x;
     public int y;
     public int mapLengthX;
     public int mapLengthY;
+    public int direction;
 
-    public void putCoordinates(int p1, int p2)
+    public void PutCoordinates(int put, int put2)
     {
-        x = p1;
-        y = p2;
+        x = put;
+        y = put2;
     }
 
     public void moveLeft()
@@ -38,25 +39,39 @@ struct Coordinates
     }
 }
 
+struct Shoot
+{
+    public int x;
+    public int y;
+    public int direction;
+    public bool isShoot;
+}
+
 class ConsoleGame
 {
     //Declare PlayerCords Obj
-    public static Coordinates playerCords = new Coordinates();
+    public static PlayerCoordinates playerCords = new PlayerCoordinates();
+    //Declare PlayerShoot
+    public static Shoot shoot = new Shoot();
+    //List of Cordinates of Dollars
+    public static List<KeyValuePair<int, int>> dollarsCords = new List<KeyValuePair<int, int>>();
+    //score
+    public static int score = 0;
 
     static void Main()
     {
+        //diasble shoot
+        shoot.isShoot = false;
+        //default player direction
+        playerCords.direction = 1;
+
         //Hide Cursor Visible
         Console.CursorVisible = false;
 
-        //Choose Level Console Size
+        //Choose Level Window(Console Size)
         Console.BufferWidth = Console.WindowWidth = 70;
         //Choose Level
         ChooseLevel();
-
-        int score = 0;
-
-        //List of Cordinates of Dollars
-        List<KeyValuePair<int, int>> dollarsCords = new List<KeyValuePair<int, int>>();
 
         //Map Size[x, y] 
         playerCords.mapLengthX = playerCords.mapLengthY * 2;
@@ -66,7 +81,7 @@ class ConsoleGame
         Console.BufferWidth = Console.WindowWidth = playerCords.mapLengthX + 7;
 
         //Player's Start Cordinates(In The Middle of MAP)
-        playerCords.putCoordinates(playerCords.mapLengthX / 2, playerCords.mapLengthY / 2);
+        playerCords.PutCoordinates(playerCords.mapLengthX / 2, playerCords.mapLengthY / 2);
 
         //Count Of Dollars
         int CountOfDollars = playerCords.mapLengthY;
@@ -86,6 +101,7 @@ class ConsoleGame
         //Print Score and Frame
         PrintScoreAndFrame(score, playerCords.mapLengthY, playerCords.mapLengthX);
 
+        //Creating timer
         Stopwatch collectTimer = new Stopwatch();
         collectTimer.Start();
 
@@ -93,15 +109,18 @@ class ConsoleGame
         while (true)
         {
             //Player Moves
-            playerMoves();
+            PlayerMoves();
 
-            //Update Score
-            //-----
+            //Move Shoot
+            MoveShoot();
 
+            //Update Score and Print Player
             score = PrintPlayer(playerCords.x, playerCords.y, score, dollarsCords);
-
+            
+            //Print Score
             PrintScore(score, playerCords.mapLengthY);
 
+            
             if (score == CountOfDollars)
             {
                 collectTimer.Stop();
@@ -150,10 +169,13 @@ class ConsoleGame
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine("Controls:");
         Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine("Moves");
         Console.WriteLine(" -LEFT ARROW");
         Console.WriteLine(" -RIGHT ARROW");
         Console.WriteLine(" -UP ARROW");
         Console.WriteLine(" -DOWN ARROW");
+        Console.WriteLine("Shoot");
+        Console.WriteLine(" -SPACE");
         Console.WriteLine();
         Console.ForegroundColor = ConsoleColor.White;
         Console.Write("PRESS [");
@@ -164,21 +186,101 @@ class ConsoleGame
         Console.ReadLine();
         Console.Clear();
     }
-
-    public static void playerMoves()
+    public static void MoveShoot()
     {
-        bool isPlayerMove = false;
+        if(shoot.isShoot)
+        {
+            if (dollarsCords.Contains(new KeyValuePair<int, int>(shoot.x, shoot.y)))
+            {
+                dollarsCords.Remove(new KeyValuePair<int, int>(shoot.x, shoot.y));
+                score++;
+            }
+            Console.SetCursorPosition(shoot.x, shoot.y);
+            Console.Write(" ");
+            switch (shoot.direction)
+            {
+                case 1:
+                    if (shoot.y > 0)
+                    {
+                        shoot.y = --shoot.y;
+                        Console.SetCursorPosition(shoot.x, shoot.y);
+                        Console.Write("|");
+                    }
+                    else
+                    {
+                        shoot.isShoot = false;
+                        Console.SetCursorPosition(shoot.x, shoot.y);
+                        Console.Write(" ");
+                    }
+                    break;
+                case 2:
+                    if (shoot.x < playerCords.mapLengthX)
+                    {
+                        shoot.x = ++shoot.x;
+                        Console.SetCursorPosition(shoot.x, shoot.y);
+                        Console.Write("-");
+                    }
+                    else
+                    {
+                        shoot.isShoot = false;
+                        Console.SetCursorPosition(shoot.x, shoot.y);
+                        Console.Write(" ");
+                    }
+                    break;
+                case 3:
+                    if (shoot.y < playerCords.mapLengthY)
+                    {
+                        shoot.y = ++shoot.y;
+                        Console.SetCursorPosition(shoot.x, shoot.y);
+                        Console.Write("|");
+                    }
+                    else
+                    {
+                        shoot.isShoot = false;
+                        Console.SetCursorPosition(shoot.x, shoot.y);
+                        Console.Write(" ");
+                    }
+                        break;
+                case 4:
+                    if(shoot.x > 0)
+                    {
+                        shoot.x = --shoot.x;
+                        Console.SetCursorPosition(shoot.x, shoot.y);
+                        Console.Write("-");
+                    }
+                    else
+                    {
+                        shoot.isShoot = false;
+                        Console.SetCursorPosition(shoot.x, shoot.y);
+                        Console.Write(" ");
+                    }
+                    break;
+            }
+        }
+    }
+    public static void PlayerMoves()
+    {
 
         //While Player doesn't move TRUE ---> else FALSE
-        while (!isPlayerMove)
+        while (Console.KeyAvailable)
         {
             ConsoleKeyInfo pressedKey = Console.ReadKey(true);
             Console.SetCursorPosition(playerCords.x, playerCords.y);
             switch (pressedKey.Key)
             {
+                case ConsoleKey.Spacebar:
+                    if(!shoot.isShoot)
+                    {
+                        shoot.x = playerCords.x;
+                        shoot.y = playerCords.y;
+                        shoot.direction = playerCords.direction;
+                        shoot.isShoot = true;
+                        MoveShoot();
+                    }
+                    break;
                 case ConsoleKey.UpArrow:
                     Console.Write(" ");
-                    isPlayerMove = true;
+                    playerCords.direction = 1;
                     if (playerCords.y > 0)
                     {
                         playerCords.moveUp();
@@ -189,9 +291,22 @@ class ConsoleGame
                     }
                     break;
 
+                case ConsoleKey.RightArrow:
+                    Console.Write(" ");
+                    playerCords.direction = 2;
+                    if (playerCords.x < playerCords.mapLengthX)
+                    {
+                        playerCords.moveRight();
+                    }
+                    else
+                    {
+                        playerCords.x = 0;
+                    }
+                    break;
+
                 case ConsoleKey.DownArrow:
                     Console.Write(" ");
-                    isPlayerMove = true;
+                    playerCords.direction = 3;
                     if (playerCords.y < playerCords.mapLengthY)
                     {
                         playerCords.moveDown();
@@ -204,7 +319,7 @@ class ConsoleGame
 
                 case ConsoleKey.LeftArrow:
                     Console.Write(" ");
-                    isPlayerMove = true;
+                    playerCords.direction = 4;
                     if (playerCords.x > 0)
                     {
                         playerCords.moveLeft();
@@ -212,19 +327,6 @@ class ConsoleGame
                     else
                     {
                         playerCords.x = playerCords.mapLengthX;
-                    }
-                    break;
-
-                case ConsoleKey.RightArrow:
-                    Console.Write(" ");
-                    isPlayerMove = true;
-                    if (playerCords.x < playerCords.mapLengthX)
-                    {
-                        playerCords.moveRight();
-                    }
-                    else
-                    {
-                        playerCords.x = 0;
                     }
                     break;
             }
