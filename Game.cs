@@ -7,6 +7,7 @@ namespace Minesweeper___game
 {
     class Game
     {
+        public static int level = -1;
         public static Levels levels = new Levels();
         public static Cells cells = new Cells();
 

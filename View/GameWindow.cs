@@ -38,7 +38,7 @@ namespace Minesweeper___game.Models
             base.OnMouseMove(e);
             xMouseCords = e.X;
             yMouseCords = e.Y;
-            if (Game.cells.CheckIsInCell(xMouseCords, yMouseCords))
+            if (Game.level > -1 && Game.cells.CheckIsInCell(xMouseCords, yMouseCords))
             {
                 isCell.Text = "TRUE";
             }
@@ -67,8 +67,9 @@ namespace Minesweeper___game.Models
             }
         }
 
-        private void CreateLevel(int difficulty) 
+        private void CreateLevel(int difficulty)
         {
+            Game.level = difficulty;
             int windowWidth = Game.levels.levelsList[difficulty].width*30;
             int windowHeight = Game.levels.levelsList[difficulty].height*30;
             this.Controls.Clear();
@@ -98,13 +99,38 @@ namespace Minesweeper___game.Models
                 {
                     Game.cells.AddNewCell(brushPositionX, brushPositionY, 0, i, j);
                     cell = new Rectangle(brushPositionX, brushPositionY, 20, 20);
-                    g.FillRectangle(blueBrush, cell);
                     brushPositionX += 22;
                 }
                 brushPositionX = 10;
                 brushPositionY += 22;
             }
-            Game.cells.generateCellsType(0);
+            Game.cells.generateCellsType();
+            brushPositionX = brushPositionY = 10;
+            for (int i = 0; i < tableCellsY; i++)
+            {
+                for (int j = 0; j < tableCellsX; j++)
+                {
+                    string cellType = "";
+                    Font drawFont = new Font("Arial", 16);
+                    SolidBrush drawBrush = new SolidBrush(Color.Black);
+                    cell = new Rectangle(brushPositionX, brushPositionY, 20, 20);
+                    blueBrush.Color = Color.White;
+                    if (Game.cells.board[i, j].type == -1)
+                    {
+                        blueBrush.Color = Color.Red;
+                    }
+                    if (Game.cells.board[i, j].type > 0)
+                    {
+                        cellType = Game.cells.board[i, j].type.ToString();
+                    }
+
+                    g.FillRectangle(blueBrush, cell);
+                    g.DrawString(cellType, drawFont, drawBrush, brushPositionX, brushPositionY);
+                    brushPositionX += 22;
+                }
+                brushPositionX = 10;
+                brushPositionY += 22;
+            }
         }
         //Method to stop redraw when press ALT
         protected override void WndProc(ref Message m)
