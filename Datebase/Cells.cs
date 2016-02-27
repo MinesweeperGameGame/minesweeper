@@ -5,16 +5,19 @@ namespace Minesweeper___game.Datebase
 {
     class Cells
     {
-        public List<Cell> cells;
+        public Cell[,] cells;
 
         public Cells()
         {
-            cells = new List<Cell>();
+            
         }
-
-        public void AddNewCell(int x, int y, int type)
+        public void AddBoardSize (int columns, int rows)
         {
-            this.cells.Add(new Cell(x, x + 20, y, y + 20, type));
+            cells = new Cell[rows, columns];
+        }
+        public void AddNewCell(int x, int y, int type, int row, int column)
+        {
+            this.cells[row,column] = new Cell(x, x + 20, y, y + 20, type);
         }
 
         public bool CheckIsInCell(int x, int y)

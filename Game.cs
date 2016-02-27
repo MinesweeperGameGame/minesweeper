@@ -7,10 +7,14 @@ namespace Minesweeper___game
 {
     class Game
     {
+        public static Levels levels = new Levels();
         public static Cells cells = new Cells();
 
         public Game()
         {
+            Game.levels.addDifficulty(9, 9, 10, 6);
+            Game.levels.addDifficulty(16, 16, 40, 10);
+            Game.levels.addDifficulty(16, 32, 99, 15);
         }
         public void Start()
         {

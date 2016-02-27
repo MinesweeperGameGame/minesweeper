@@ -8,13 +8,17 @@ namespace Minesweeper___game.Datebase
 {
     class Levels
     {
-        public List<Difficulty> levels;
+        public List<Difficulty> levelsList;
 
         public Levels()
         {
-            this.levels = new List<Difficulty>();
+            this.levelsList = new List<Difficulty>();
         }
+        public void addDifficulty (int height, int width, int mines, int count)
+        {
+            this.levelsList.Add(new Difficulty(height, width, mines, count));
 
+        }
 
     }
 }

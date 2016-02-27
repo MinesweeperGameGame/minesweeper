@@ -54,27 +54,29 @@ namespace Minesweeper___game.Models
             switch (button.Name)
             {
                 case "button1":
-                    CreateLevel(400, 300, 3);
+                    CreateLevel(0);
                     break;
                 case "button2":
-                    //CreateLevel();
+                    CreateLevel(1);
                     break;
                 case "button3":
-                    //CreateLevel();
+                    CreateLevel(2);
                     break;
                 default:
                     throw new ArgumentException("Wrong button!");
             }
         }
 
-        private void CreateLevel(int windowWidth, int windowHeight, int minies) 
+        private void CreateLevel(int difficulty) 
         {
+            int windowWidth = Game.levels.levelsList[difficulty].width*30;
+            int windowHeight = Game.levels.levelsList[difficulty].height*30;
             this.Controls.Clear();
             this.ClientSize = new System.Drawing.Size(windowWidth, windowHeight);
             this.CenterToScreen();
 
-            int tableCellsX = windowWidth/40;
-            int tableCellsY = windowHeight/50;
+            int tableCellsX = windowWidth/30;
+            int tableCellsY = windowHeight/30;
 
             DrawCells(tableCellsX, tableCellsY);
         }
@@ -93,7 +95,7 @@ namespace Minesweeper___game.Models
             {
                 for (int j = 0; j < tableCellsX; j++)
                 {
-                    Game.cells.AddNewCell(brushPositionX, brushPositionY, 0);
+                    Game.cells.AddNewCell(brushPositionX, brushPositionY, 0, i, j);
                     cell = new Rectangle(brushPositionX, brushPositionY, 20, 20);
                     g.FillRectangle(blueBrush, cell);
                     brushPositionX += 22;
