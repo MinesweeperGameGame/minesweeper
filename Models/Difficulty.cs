@@ -5,14 +5,14 @@
         public int height;
         public int width;
         public int mines;
-        public int count;
+        public int densityCheck;
 
-        public Difficulty(int height, int width, int mines, int count)
+        public Difficulty(int height, int width, int mines, int densityCheck)
         {
             this.height = height;
             this.width = width;
             this.mines = mines;
-            this.count = count;
+            this.densityCheck = densityCheck;
         }
     }
 }

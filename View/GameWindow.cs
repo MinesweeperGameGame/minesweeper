@@ -91,6 +91,7 @@ namespace Minesweeper___game.Models
             Rectangle cell;
             SolidBrush blueBrush = new SolidBrush(Color.Blue);
 
+            Game.cells.AddBoardSize(tableCellsX, tableCellsY);
             for (int i = 0; i < tableCellsY; i++)
             {
                 for (int j = 0; j < tableCellsX; j++)
@@ -103,6 +104,7 @@ namespace Minesweeper___game.Models
                 brushPositionX = 10;
                 brushPositionY += 22;
             }
+            Game.cells.generateCellsType(0);
         }
         //Method to stop redraw when press ALT
         protected override void WndProc(ref Message m)
