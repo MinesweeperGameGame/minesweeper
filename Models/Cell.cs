@@ -8,7 +8,8 @@
         public int maxY;
         // true = mine
         public int type;
-
+        //notsure
+        public bool isHidden;
         public Cell(int minX, int maxX, int minY, int maxY, int type)
         {
             this.minX = minX;
