@@ -36,21 +36,37 @@ namespace Minesweeper___game.Models
                 xMouseCords = e.X;
                 yMouseCords = e.Y;
                 Cell currentClick = Board.cells.getCellByCords(xMouseCords, yMouseCords);
-                if (currentClick != null)
+                if (e.Button == System.Windows.Forms.MouseButtons.Left)
                 {
-                    if (!Board.isGenCellsType)
+                    if (currentClick != null)
                     {
-                        Board.cells.generateCellsType(currentClick);
+                        if (!Board.isGenCellsType)
+                        {
+                            Board.cells.generateCellsType(currentClick);
+                        }
+                        if (currentClick.type == -1)
+                        {
+
+                        }
+                        else
+                        {
+                            //work in progress
+                        }
+                        DrawCells(Game.levels.levelsList[Game.level].width, Game.levels.levelsList[Game.level].height);
                     }
-                    if (currentClick.type == -1)
+
+                }
+
+                else if (e.Button == System.Windows.Forms.MouseButtons.Right)
+                {
+                    if (!currentClick.isFlagged)
                     {
-                        
+                        currentClick.isFlagged = true;
                     }
                     else
                     {
-                        //work in progress
+                        currentClick.isFlagged = false;
                     }
-                    DrawCells(Game.levels.levelsList[Game.level].width, Game.levels.levelsList[Game.level].height);
                 }
             }
         }

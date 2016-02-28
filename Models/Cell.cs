@@ -12,6 +12,7 @@
         public int type;
         //notsure
         public bool isHidden;
+        public bool isFlagged;
 
         public Cell(int minX, int maxX, int minY, int maxY, int boardX, int boardY, int type)
         {

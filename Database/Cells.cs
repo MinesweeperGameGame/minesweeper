@@ -37,7 +37,7 @@ namespace Minesweeper___game.Datebase
         {
             foreach (Cell cell in board)
             {
-                if (cell.minX <= x && cell.maxX >= x && cell.minY <= y && cell.maxY >= y)
+                if (cell.isHidden && cell.minX <= x && cell.maxX >= x && cell.minY <= y && cell.maxY >= y)
                 {
                     return cell;
                 }
