@@ -36,10 +36,11 @@ namespace Minesweeper___game.Models
                 xMouseCords = e.X;
                 yMouseCords = e.Y;
                 Cell currentClick = Board.cells.getCellByCords(xMouseCords, yMouseCords);
-                if (e.Button == System.Windows.Forms.MouseButtons.Left)
+                if (currentClick != null)
                 {
-                    if (currentClick != null)
+                    if (e.Button == System.Windows.Forms.MouseButtons.Left)
                     {
+
                         if (!Board.isGenCellsType)
                         {
                             Board.cells.generateCellsType(currentClick);
@@ -52,21 +53,22 @@ namespace Minesweeper___game.Models
                         {
                             //work in progress
                         }
-                        DrawCells(Game.levels.levelsList[Game.level].width, Game.levels.levelsList[Game.level].height);
+
                     }
 
-                }
+                    else if (e.Button == System.Windows.Forms.MouseButtons.Right)
+                    {
+                        if (!currentClick.isFlagged)
+                        {
+                            currentClick.isFlagged = true;
+                        }
+                        else
+                        {
+                            currentClick.isFlagged = false;
+                        }
+                    }
 
-                else if (e.Button == System.Windows.Forms.MouseButtons.Right)
-                {
-                    if (!currentClick.isFlagged)
-                    {
-                        currentClick.isFlagged = true;
-                    }
-                    else
-                    {
-                        currentClick.isFlagged = false;
-                    }
+                    DrawCells(Game.levels.levelsList[Game.level].width, Game.levels.levelsList[Game.level].height);
                 }
             }
         }
@@ -126,6 +128,10 @@ namespace Minesweeper___game.Models
                     if (Board.cells.board[i, j].type == -1)
                     {
                         brush.Color = Color.Red;
+                    }
+                    if (Board.cells.board[i, j].isFlagged)
+                    {
+                        brush.Color = Color.Green;
                     }
 
                     //string cellType = "";
