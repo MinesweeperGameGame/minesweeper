@@ -34,8 +34,6 @@ namespace Minesweeper___game.Models
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
@@ -71,28 +69,11 @@ namespace Minesweeper___game.Models
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.ChoiceLevel);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(297, 33);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "label1";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(465, 33);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "label2";
-            // 
             // GameWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(800, 600);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -104,7 +85,6 @@ namespace Minesweeper___game.Models
             this.Text = "Minesweeper";
             this.Load += new System.EventHandler(this.HomeWindow_Load);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

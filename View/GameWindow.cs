@@ -12,8 +12,8 @@ namespace Minesweeper___game.Models
 {
     public partial class GameWindow : Form
     {
+        private const int CellsStartingPoint = 10;
         private Graphics g;
-        private Label isCell = new Label();
         private int xMouseCords = 0;
         private int yMouseCords = 0;
 
@@ -21,12 +21,6 @@ namespace Minesweeper___game.Models
         {
             InitializeComponent();
             g = CreateGraphics();
-
-            //testing output label
-            isCell.Location = new System.Drawing.Point(10, 200);
-            isCell.Name = "label";
-            isCell.Text = "";
-            isCell.Size = new System.Drawing.Size(77, 21);
         }
 
         private void HomeWindow_Load(object sender, EventArgs e)
@@ -35,16 +29,16 @@ namespace Minesweeper___game.Models
 
         protected override void OnMouseClick(MouseEventArgs e)
         {
-            base.OnMouseMove(e);
-            xMouseCords = e.X;
-            yMouseCords = e.Y;
-            if (Game.level > -1 && Game.cells.CheckIsInCell(xMouseCords, yMouseCords))
+            if (Game.level > -1)
             {
-                isCell.Text = "TRUE";
-            }
-            else
-            {
-                isCell.Text = "FLASE";
+                base.OnMouseMove(e);
+                xMouseCords = e.X;
+                yMouseCords = e.Y;
+
+                if (!Game.isGenCellsType)
+                {
+                    Game.cells.generateCellsType(Game.cells.getCellByCords(xMouseCords, yMouseCords));
+                }
             }
         }
 
@@ -69,66 +63,52 @@ namespace Minesweeper___game.Models
 
         private void CreateLevel(int difficulty)
         {
+            int windowWidth = Game.levels.levelsList[difficulty].width * 30;
+            int windowHeight = Game.levels.levelsList[difficulty].height * 30;
+            int tableCellsX = windowWidth / 30;
+            int tableCellsY = windowHeight / 30;
+
             Game.level = difficulty;
-            int windowWidth = Game.levels.levelsList[difficulty].width*30;
-            int windowHeight = Game.levels.levelsList[difficulty].height*30;
+            Game.cells.GenerateCels(tableCellsX, tableCellsY, CellsStartingPoint, CellsStartingPoint);
+
             this.Controls.Clear();
             this.ClientSize = new System.Drawing.Size(windowWidth, windowHeight);
             this.CenterToScreen();
-
-            int tableCellsX = windowWidth/30;
-            int tableCellsY = windowHeight/30;
 
             DrawCells(tableCellsX, tableCellsY);
         }
 
         private void DrawCells(int tableCellsX, int tableCellsY)
         {
-            this.Controls.Add(isCell);
-
-            int brushPositionX = 10;
-            int brushPositionY = 10;
+            g.Clear(Color.White);
 
             Rectangle cell;
-            SolidBrush blueBrush = new SolidBrush(Color.Blue);
+            SolidBrush brush = new SolidBrush(Color.Gray);
 
-            Game.cells.AddBoardSize(tableCellsX, tableCellsY);
+            int brushPositionX = CellsStartingPoint;
+            int brushPositionY = CellsStartingPoint;
+
             for (int i = 0; i < tableCellsY; i++)
             {
                 for (int j = 0; j < tableCellsX; j++)
                 {
-                    Game.cells.AddNewCell(brushPositionX, brushPositionY, 0, i, j);
-                    cell = new Rectangle(brushPositionX, brushPositionY, 20, 20);
-                    brushPositionX += 22;
-                }
-                brushPositionX = 10;
-                brushPositionY += 22;
-            }
-            Game.cells.generateCellsType();
-            brushPositionX = brushPositionY = 10;
-            for (int i = 0; i < tableCellsY; i++)
-            {
-                for (int j = 0; j < tableCellsX; j++)
-                {
-                    string cellType = "";
-                    Font drawFont = new Font("Arial", 16);
-                    SolidBrush drawBrush = new SolidBrush(Color.Black);
-                    cell = new Rectangle(brushPositionX, brushPositionY, 20, 20);
-                    blueBrush.Color = Color.White;
-                    if (Game.cells.board[i, j].type == -1)
+                    brush.Color = Color.Gray;
+
+                    if (!Game.cells.board[i, j].isHidden)
                     {
-                        blueBrush.Color = Color.Red;
-                    }
-                    if (Game.cells.board[i, j].type > 0)
-                    {
-                        cellType = Game.cells.board[i, j].type.ToString();
+                        brush.Color = Color.Red;
                     }
 
-                    g.FillRectangle(blueBrush, cell);
-                    g.DrawString(cellType, drawFont, drawBrush, brushPositionX, brushPositionY);
+                    //string cellType = "";
+                    //Font drawFont = new Font("Arial", 15);
+                    //SolidBrush drawBrush = new SolidBrush(Color.Black);
+                    cell = new Rectangle(brushPositionX, brushPositionY, 20, 20);
+
+                    g.FillRectangle(brush, cell);
+                    //g.DrawString(cellType, drawFont, drawBrush, brushPositionX, brushPositionY);
                     brushPositionX += 22;
                 }
-                brushPositionX = 10;
+                brushPositionX = CellsStartingPoint;
                 brushPositionY += 22;
             }
         }

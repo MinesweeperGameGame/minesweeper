@@ -7,35 +7,52 @@ namespace Minesweeper___game.Datebase
     class Cells
     {
         public Cell[,] board;
+        public Cell notMineCell;
 
         public Cells()
         {
 
         }
-        public void AddBoardSize(int columns, int rows)
+        public void GenerateCels(int columns, int rows, int cellPositionX, int cellPositionY)
         {
             board = new Cell[rows, columns];
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < columns; j++)
+                {
+                    Game.cells.AddNewCell(cellPositionX, cellPositionY, 0, i, j);
+                    cellPositionX += 22;
+                }
+                cellPositionX = 10;
+                cellPositionY += 22;
+            }
         }
         public void AddNewCell(int x, int y, int type, int row, int column)
         {
-            this.board[row, column] = new Cell(x, x + 20, y, y + 20, type);
+            this.board[row, column] = new Cell(x, x + 20, y, y + 20, row, column, type);
         }
 
-        public bool CheckIsInCell(int x, int y)
+        public Cell getCellByCords(int x, int y)
         {
             foreach (Cell cell in board)
             {
                 if (cell.minX <= x && cell.maxX >= x && cell.minY <= y && cell.maxY >= y)
                 {
-                    return true;
+                    return cell;
                 }
             }
-            return false;
+            return null;
         }
-        public void generateCellsType ()
+        public void generateCellsType (Cell notMineCell)
         {
-            generateMines();
-            mineCheck();
+            if (notMineCell != null)
+            {
+                Game.isGenCellsType = true;
+                this.notMineCell = notMineCell;
+                generateMines();
+                mineCheck();
+            }
         }
         public void generateMines()
         {

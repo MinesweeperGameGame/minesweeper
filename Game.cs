@@ -10,6 +10,7 @@ namespace Minesweeper___game
         public static int level = -1;
         public static Levels levels = new Levels();
         public static Cells cells = new Cells();
+        public static bool isGenCellsType;
 
         public Game()
         {
