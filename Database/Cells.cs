@@ -8,7 +8,7 @@ namespace Minesweeper___game.Datebase
     class Cells
     {
         public Cell[,] board;
-        public Cell notMineCell;
+        public List<Cell> notMineCells = new List<Cell>();
         public Cells()
         {
 
@@ -52,11 +52,37 @@ namespace Minesweeper___game.Datebase
         {
 
             Board.isGenCellsType = true;
-            this.notMineCell = notMineCell;
+            notMineCells.Add(notMineCell);
+            FirstClickNeighbours(notMineCell.boardX - 1, notMineCell.boardY);
+            FirstClickNeighbours(notMineCell.boardX + 1, notMineCell.boardY);
+            FirstClickNeighbours(notMineCell.boardX, notMineCell.boardY - 1);
+            FirstClickNeighbours(notMineCell.boardX, notMineCell.boardY + 1);
+            FirstClickNeighbours(notMineCell.boardX - 1, notMineCell.boardY - 1);
+            FirstClickNeighbours(notMineCell.boardX + 1, notMineCell.boardY - 1);
+            FirstClickNeighbours(notMineCell.boardX - 1, notMineCell.boardY + 1);
+            FirstClickNeighbours(notMineCell.boardX + 1, notMineCell.boardY + 1);
             generateMines();
             mineCheck();
         }
-
+        public bool NeighboursTrack(int x, int y)
+        {
+            foreach (Cell cell in notMineCells)
+            {
+                if (Object.ReferenceEquals(this.board[x, y], cell))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        public void FirstClickNeighbours(int x, int y)
+        {
+            if (x >= 0 && x < Game.levels.levelsList[Game.level].height
+                && y >= 0 && y < Game.levels.levelsList[Game.level].width)
+            {
+                notMineCells.Add(this.board[x, y]);
+            }
+        }
         public void generateMines()
         {
             int level = Game.level;
@@ -69,8 +95,7 @@ namespace Minesweeper___game.Datebase
                 {
                     for (int y = 0; y < Game.levels.levelsList[level].width; y++)
                     {
-                        if (density == 0 && this.board[i, y].type != -1
-                            && (i != this.notMineCell.boardX || y != this.notMineCell.boardY))
+                        if (density == 0 && this.board[i, y].type != -1 && NeighboursTrack(i, y))
                         {
                             this.board[i, y].type = rand.Next(-1, 1);
                             if (this.board[i, y].type == -1)

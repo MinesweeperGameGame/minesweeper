@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Controllers\LevelsController.cs" />
     <Compile Include="Database\Cells.cs" />
+    <Compile Include="Database\Flags.cs" />
     <Compile Include="Database\Levels.cs" />
     <Compile Include="Models\Difficulty.cs" />
     <Compile Include="Game.cs" />

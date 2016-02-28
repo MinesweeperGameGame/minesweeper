@@ -9,7 +9,7 @@ namespace Minesweeper___game.Database
     class Flags
     {
         public int count;
-        public Flags()
+        public Flags(int count)
         {
             this.count = count;
         }
