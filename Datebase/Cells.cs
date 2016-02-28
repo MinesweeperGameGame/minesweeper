@@ -8,7 +8,6 @@ namespace Minesweeper___game.Datebase
     {
         public Cell[,] board;
         public Cell notMineCell;
-
         public Cells()
         {
 
@@ -60,26 +59,29 @@ namespace Minesweeper___game.Datebase
             int density = 0;
             int mineTotal = 0;
             Random rand = new Random();
-            while (mineTotal < Game.levels.levelsList[level].mines)
+            while (mineTotal <= Game.levels.levelsList[level].mines)
             {
                 for (int i = 0; i < Game.levels.levelsList[level].height; i++)
                 {
                     for (int y = 0; y < Game.levels.levelsList[level].width; y++)
                     {
-                        if (density == 0)
+                        if (density == 0 && i != this.notMineCell.boardX && y != this.notMineCell.boardY)
                         {
                             this.board[i, y].type = rand.Next(-1, 1);
                             if (this.board[i, y].type == -1)
                             {
                                 mineTotal++;
                                 density = Game.levels.levelsList[level].densityCheck;
+                                if (mineTotal == Game.levels.levelsList[level].mines)
+                                {
+                                    return;
+                                }
                             }
                         }
-                        else density--;
-                    }
-                    if (mineTotal == Game.levels.levelsList[level].mines)
-                    {
-                        break;
+                        else if (density != 0)
+                        {
+                            density--;
+                        }
                     }
                 }
             }

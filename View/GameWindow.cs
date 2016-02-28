@@ -39,6 +39,7 @@ namespace Minesweeper___game.Models
                 {
                     Game.cells.generateCellsType(Game.cells.getCellByCords(xMouseCords, yMouseCords));
                 }
+                DrawCells(Game.levels.levelsList[Game.level].width, Game.levels.levelsList[Game.level].height);
             }
         }
 
@@ -94,7 +95,7 @@ namespace Minesweeper___game.Models
                 {
                     brush.Color = Color.Gray;
 
-                    if (!Game.cells.board[i, j].isHidden)
+                    if (Game.cells.board[i, j].type == -1) 
                     {
                         brush.Color = Color.Red;
                     }
