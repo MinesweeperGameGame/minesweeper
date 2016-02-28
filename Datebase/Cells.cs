@@ -67,9 +67,9 @@ namespace Minesweeper___game.Datebase
                     for (int y = 0; y < Game.levels.levelsList[level].width; y++)
                     {
                         if (density == 0 
-                            && i != this.notMineCell.boardX 
-                            && y != this.notMineCell.boardY 
-                            && this.board[i,y].type != -1)
+                            && this.board[i,y].type != -1 
+                            && (i != this.notMineCell.boardX
+                            || y != this.notMineCell.boardY))
                         {
                             this.board[i, y].type = rand.Next(-1, 1);
                             if (this.board[i, y].type == -1)

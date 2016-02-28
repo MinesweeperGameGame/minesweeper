@@ -16,7 +16,7 @@ namespace Minesweeper___game
         {
             Game.levels.addDifficulty(9, 9, 10, 6);
             Game.levels.addDifficulty(16, 16, 40, 10);
-            Game.levels.addDifficulty(16, 32, 99, 15);
+            Game.levels.addDifficulty(16, 32, 511, 15);
         }
         public void Start()
         {
