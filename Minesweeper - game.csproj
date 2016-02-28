@@ -58,6 +58,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Cell.cs" />
+    <Compile Include="View\Board.cs" />
     <Compile Include="View\GameWindow.cs">
       <SubType>Form</SubType>
     </Compile>

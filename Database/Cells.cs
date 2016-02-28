@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Minesweeper___game.Models;
 using System;
+using Minesweeper___game.View;
 
 namespace Minesweeper___game.Datebase
 {
@@ -20,7 +21,7 @@ namespace Minesweeper___game.Datebase
             {
                 for (int j = 0; j < columns; j++)
                 {
-                    Game.cells.AddNewCell(cellPositionX, cellPositionY, 0, i, j);
+                    Board.cells.AddNewCell(cellPositionX, cellPositionY, 0, i, j);
                     cellPositionX += 22;
                 }
                 cellPositionX = 10;
@@ -47,7 +48,7 @@ namespace Minesweeper___game.Datebase
         {
             if (notMineCell != null)
             {
-                Game.isGenCellsType = true;
+                Board.isGenCellsType = true;
                 this.notMineCell = notMineCell;
                 generateMines();
                 mineCheck();

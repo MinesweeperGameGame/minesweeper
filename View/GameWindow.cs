@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Minesweeper___game.View;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -35,9 +36,9 @@ namespace Minesweeper___game.Models
                 xMouseCords = e.X;
                 yMouseCords = e.Y;
 
-                if (!Game.isGenCellsType)
+                if (!Board.isGenCellsType)
                 {
-                    Game.cells.generateCellsType(Game.cells.getCellByCords(xMouseCords, yMouseCords));
+                    Board.cells.generateCellsType(Board.cells.getCellByCords(xMouseCords, yMouseCords));
                 }
                 DrawCells(Game.levels.levelsList[Game.level].width, Game.levels.levelsList[Game.level].height);
             }
@@ -70,7 +71,7 @@ namespace Minesweeper___game.Models
             int tableCellsY = windowHeight / 30;
 
             Game.level = difficulty;
-            Game.cells.GenerateCels(tableCellsX, tableCellsY, CellsStartingPoint, CellsStartingPoint);
+            Board.cells.GenerateCels(tableCellsX, tableCellsY, CellsStartingPoint, CellsStartingPoint);
 
             this.Controls.Clear();
             this.ClientSize = new System.Drawing.Size(windowWidth, windowHeight);
@@ -95,7 +96,7 @@ namespace Minesweeper___game.Models
                 {
                     brush.Color = Color.Gray;
 
-                    if (Game.cells.board[i, j].type == -1) 
+                    if (Board.cells.board[i, j].type == -1) 
                     {
                         brush.Color = Color.Red;
                     }

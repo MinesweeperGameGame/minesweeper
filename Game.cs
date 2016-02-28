@@ -9,14 +9,12 @@ namespace Minesweeper___game
     {
         public static int level = -1;
         public static Levels levels = new Levels();
-        public static Cells cells = new Cells();
-        public static bool isGenCellsType;
 
         public Game()
         {
             Game.levels.addDifficulty(9, 9, 10, 6);
             Game.levels.addDifficulty(16, 16, 40, 10);
-            Game.levels.addDifficulty(16, 32, 511, 15);
+            Game.levels.addDifficulty(16, 32, 99, 15);
         }
         public void Start()
         {
