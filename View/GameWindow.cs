@@ -45,14 +45,7 @@ namespace Minesweeper___game.Models
                         {
                             Board.cells.generateCellsType(currentClick);
                         }
-                        if (currentClick.type == -1)
-                        {
-
-                        }
-                        else
-                        {
-                            //work in progress
-                        }
+                        Board.revealCells(currentClick.boardX, currentClick.boardY);
 
                     }
 
@@ -123,24 +116,32 @@ namespace Minesweeper___game.Models
             {
                 for (int j = 0; j < tableCellsX; j++)
                 {
+                    Cell currentCell = Board.cells.board[i, j];
                     brush.Color = Color.Gray;
+                    string cellType = String.Empty;
 
-                    if (Board.cells.board[i, j].type == -1)
-                    {
-                        brush.Color = Color.Red;
-                    }
-                    if (Board.cells.board[i, j].isFlagged)
+                    if (currentCell.isFlagged)
                     {
                         brush.Color = Color.Green;
                     }
+                    if (!currentCell.isHidden)
+                    {
+                        if (currentCell.type >= 0)
+                        {
+                            brush.Color = Color.White;
+                        }
+                        if (currentCell.type > 0)
+                        {
+                            cellType = currentCell.type.ToString();
+                        }
+                    }
 
-                    //string cellType = "";
-                    //Font drawFont = new Font("Arial", 15);
-                    //SolidBrush drawBrush = new SolidBrush(Color.Black);
+                    Font drawFont = new Font("Arial", 15);
+                    SolidBrush drawBrush = new SolidBrush(Color.Black);
                     cell = new Rectangle(brushPositionX, brushPositionY, 20, 20);
 
                     g.FillRectangle(brush, cell);
-                    //g.DrawString(cellType, drawFont, drawBrush, brushPositionX, brushPositionY);
+                    g.DrawString(cellType, drawFont, drawBrush, brushPositionX, brushPositionY);
                     brushPositionX += 22;
                 }
                 brushPositionX = CellsStartingPoint;
