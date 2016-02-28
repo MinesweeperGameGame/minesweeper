@@ -44,17 +44,15 @@ namespace Minesweeper___game.Datebase
             }
             return null;
         }
-        public void generateCellsType (Cell notMineCell)
+        public void generateCellsType(Cell notMineCell)
         {
-            if (notMineCell != null)
-            {
-                Board.isGenCellsType = true;
-                this.notMineCell = notMineCell;
-                generateMines();
-                mineCheck();
-            }
+
+            Board.isGenCellsType = true;
+            this.notMineCell = notMineCell;
+            generateMines();
+            mineCheck();
         }
-       
+
         public void generateMines()
         {
             int level = Game.level;
@@ -67,10 +65,8 @@ namespace Minesweeper___game.Datebase
                 {
                     for (int y = 0; y < Game.levels.levelsList[level].width; y++)
                     {
-                        if (density == 0 
-                            && this.board[i,y].type != -1 
-                            && (i != this.notMineCell.boardX
-                            || y != this.notMineCell.boardY))
+                        if (density == 0 && this.board[i, y].type != -1
+                            && (i != this.notMineCell.boardX || y != this.notMineCell.boardY))
                         {
                             this.board[i, y].type = rand.Next(-1, 1);
                             if (this.board[i, y].type == -1)
@@ -90,9 +86,9 @@ namespace Minesweeper___game.Datebase
                     }
                 }
             }
-            
+
         }
-        public void mineCheck ()
+        public void mineCheck()
         {
             int level = Game.level;
 
@@ -114,13 +110,13 @@ namespace Minesweeper___game.Datebase
                 }
             }
         }
-        public void neighbourCheck (int i, int y)
+        public void neighbourCheck(int i, int y)
         {
             int level = Game.level;
 
-            if (i>=0 && i<Game.levels.levelsList[level].height && y>=0 && y<Game.levels.levelsList[level].width)
+            if (i >= 0 && i < Game.levels.levelsList[level].height && y >= 0 && y < Game.levels.levelsList[level].width)
             {
-                if (this.board[i,y].type != -1)
+                if (this.board[i, y].type != -1)
                 {
                     this.board[i, y].type++;
                 }

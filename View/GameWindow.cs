@@ -35,12 +35,23 @@ namespace Minesweeper___game.Models
                 base.OnMouseMove(e);
                 xMouseCords = e.X;
                 yMouseCords = e.Y;
-
-                if (!Board.isGenCellsType)
+                Cell currentClick = Board.cells.getCellByCords(xMouseCords, yMouseCords);
+                if (currentClick != null)
                 {
-                    Board.cells.generateCellsType(Board.cells.getCellByCords(xMouseCords, yMouseCords));
+                    if (!Board.isGenCellsType)
+                    {
+                        Board.cells.generateCellsType(currentClick);
+                    }
+                    if (currentClick.type == -1)
+                    {
+                        
+                    }
+                    else
+                    {
+                        //work in progress
+                    }
+                    DrawCells(Game.levels.levelsList[Game.level].width, Game.levels.levelsList[Game.level].height);
                 }
-                DrawCells(Game.levels.levelsList[Game.level].width, Game.levels.levelsList[Game.level].height);
             }
         }
 
@@ -96,7 +107,7 @@ namespace Minesweeper___game.Models
                 {
                     brush.Color = Color.Gray;
 
-                    if (Board.cells.board[i, j].type == -1) 
+                    if (Board.cells.board[i, j].type == -1)
                     {
                         brush.Color = Color.Red;
                     }
