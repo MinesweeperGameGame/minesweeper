@@ -34,6 +34,7 @@ namespace Minesweeper___game.Models
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.restart = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -69,6 +70,18 @@ namespace Minesweeper___game.Models
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.ChoiceLevel);
             // 
+            // restart
+            // 
+            this.restart.Font = new System.Drawing.Font("Papyrus", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.restart.Location = new System.Drawing.Point(12, 12);
+            this.restart.Name = "restart";
+            this.restart.Size = new System.Drawing.Size(127, 45);
+            this.restart.TabIndex = 3;
+            this.restart.Text = "RESET";
+            this.restart.UseVisualStyleBackColor = true;
+            this.restart.Visible = false;
+            this.restart.Click += new System.EventHandler(this.ResetLevel);
+            // 
             // GameWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -88,8 +101,9 @@ namespace Minesweeper___game.Models
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private Button button1;
+        private Button button2;
+        private Button button3;
+        private Button restart;
     }
 }

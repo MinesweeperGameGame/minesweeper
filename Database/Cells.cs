@@ -15,17 +15,21 @@ namespace Minesweeper___game.Datebase
         }
         public void GenerateCels(int columns, int rows, int cellPositionX, int cellPositionY)
         {
+            Game.isAlive = true;
+            Board.isGenCellsType = false;
             board = new Cell[rows, columns];
+            Board.cellsCount = Game.levels.levelsList[Game.level].height*Game.levels.levelsList[Game.level].height;
+            Board.minesCount = Game.levels.levelsList[Game.level].mines;
 
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < columns; j++)
                 {
                     Board.cells.AddNewCell(cellPositionX, cellPositionY, 0, i, j);
-                    cellPositionX += 22;
+                    cellPositionX += 21;
                 }
                 cellPositionX = 10;
-                cellPositionY += 22;
+                cellPositionY += 21;
             }
         }
         public void AddNewCell(int x, int y, int type, int row, int column)

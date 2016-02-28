@@ -9,6 +9,7 @@ namespace Minesweeper___game
     {
         public static int level = -1;
         public static Levels levels = new Levels();
+        public static bool isAlive;
 
         public Game()
         {

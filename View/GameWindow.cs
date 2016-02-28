@@ -30,7 +30,7 @@ namespace Minesweeper___game.Models
 
         protected override void OnMouseClick(MouseEventArgs e)
         {
-            if (Game.level > -1)
+            if (Game.level > -1  && Game.isAlive)
             {
                 base.OnMouseMove(e);
                 xMouseCords = e.X;
@@ -40,12 +40,20 @@ namespace Minesweeper___game.Models
                 {
                     if (e.Button == System.Windows.Forms.MouseButtons.Left)
                     {
-
+                        if (currentClick.type == -1)
+                        {
+                            Game.isAlive = false;
+                            DrawCells(Game.levels.levelsList[Game.level].width, Game.levels.levelsList[Game.level].height);
+                        }
                         if (!Board.isGenCellsType)
                         {
                             Board.cells.generateCellsType(currentClick);
                         }
                         Board.revealCells(currentClick.boardX, currentClick.boardY);
+                        if (Board.cellsCount == Board.minesCount)
+                        {
+                            ResetLevel();
+                        }
 
                     }
 
@@ -99,13 +107,15 @@ namespace Minesweeper___game.Models
             this.ClientSize = new System.Drawing.Size(windowWidth, windowHeight);
             this.CenterToScreen();
 
+            this.restart.Visible = true;
+            this.restart.Location = new Point(10, windowHeight - 50);
+            this.Controls.Add(this.restart);
+
             DrawCells(tableCellsX, tableCellsY);
         }
 
         private void DrawCells(int tableCellsX, int tableCellsY)
         {
-            g.Clear(Color.White);
-
             Rectangle cell;
             SolidBrush brush = new SolidBrush(Color.Gray);
 
@@ -130,10 +140,18 @@ namespace Minesweeper___game.Models
                         {
                             brush.Color = Color.White;
                         }
+                        else
+                        {
+                            brush.Color = Color.Red;
+                        }
                         if (currentCell.type > 0)
                         {
                             cellType = currentCell.type.ToString();
                         }
+                    }
+                    else if(!Game.isAlive && currentCell.type == -1)
+                    {
+                        brush.Color = Color.Red;
                     }
 
                     Font drawFont = new Font("Arial", 15);
@@ -142,10 +160,10 @@ namespace Minesweeper___game.Models
 
                     g.FillRectangle(brush, cell);
                     g.DrawString(cellType, drawFont, drawBrush, brushPositionX, brushPositionY);
-                    brushPositionX += 22;
+                    brushPositionX += 21;
                 }
                 brushPositionX = CellsStartingPoint;
-                brushPositionY += 22;
+                brushPositionY += 21;
             }
         }
         //Method to stop redraw when press ALT
@@ -154,6 +172,28 @@ namespace Minesweeper___game.Models
             // Suppress the WM_UPDATEUISTATE message
             if (m.Msg == 0x128) return;
             base.WndProc(ref m);
+        }
+
+        private void ResetLevel(object sender, EventArgs e)
+        {
+            int windowWidth = Game.levels.levelsList[Game.level].width * 30;
+            int windowHeight = Game.levels.levelsList[Game.level].height * 30;
+            int tableCellsX = windowWidth / 30;
+            int tableCellsY = windowHeight / 30;
+            
+            Board.cells.GenerateCels(tableCellsX, tableCellsY, CellsStartingPoint, CellsStartingPoint);
+            DrawCells(tableCellsX, tableCellsY);
+        }
+
+        private void ResetLevel()
+        {
+            int windowWidth = Game.levels.levelsList[Game.level].width * 30;
+            int windowHeight = Game.levels.levelsList[Game.level].height * 30;
+            int tableCellsX = windowWidth / 30;
+            int tableCellsY = windowHeight / 30;
+
+            Board.cells.GenerateCels(tableCellsX, tableCellsY, CellsStartingPoint, CellsStartingPoint);
+            DrawCells(tableCellsX, tableCellsY);
         }
     }
 }

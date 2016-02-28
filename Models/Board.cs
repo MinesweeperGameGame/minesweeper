@@ -12,6 +12,8 @@ namespace Minesweeper___game.View
     {
         public static Cells cells = new Cells();
         public static bool isGenCellsType;
+        public static int cellsCount;
+        public static int minesCount;
 
         public static void revealCells(int cellX, int cellY)
         {
@@ -25,6 +27,7 @@ namespace Minesweeper___game.View
                     {
                         return;
                     }
+                    Board.cellsCount--;
                     currentCell.isHidden = false;
                     if (currentCell.type == 0)
                     {
