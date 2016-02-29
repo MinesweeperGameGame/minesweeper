@@ -40,7 +40,7 @@ namespace Minesweeper___game.Models
                 {
                     if (e.Button == System.Windows.Forms.MouseButtons.Left)
                     {
-                        if (currentClick.type == -1)
+                        if (currentClick.type == -1 && !currentClick.isFlagged)
                         {
                             Game.isAlive = false;
                             DrawCells(Game.levels.levelsList[Game.level].width, Game.levels.levelsList[Game.level].height);
