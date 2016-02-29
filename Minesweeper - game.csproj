@@ -52,12 +52,6 @@
     <Compile Include="Database\Levels.cs" />
     <Compile Include="Models\Difficulty.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Models\Cell.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="View\GameWindow.cs">
