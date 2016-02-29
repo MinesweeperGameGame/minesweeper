@@ -52,7 +52,7 @@ namespace Minesweeper___game.Models
                         Board.revealCells(currentClick.boardX, currentClick.boardY);
                         if (Board.cellsCount == Board.minesCount)
                         {
-                            ResetLevel();
+                            this.restart.Text = "AGAIN";
                         }
 
                     }
