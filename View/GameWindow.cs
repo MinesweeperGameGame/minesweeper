@@ -17,7 +17,7 @@ namespace Minesweeper___game.Models
         private Graphics g;
         private int xMouseCords = 0;
         private int yMouseCords = 0;
-
+        private int flagsCounter = 0;
         public GameWindow()
         {
             InitializeComponent();
@@ -62,14 +62,18 @@ namespace Minesweeper___game.Models
                         if (!currentClick.isFlagged)
                         {
                             currentClick.isFlagged = true;
+                            flagsCounter--;
                         }
                         else
                         {
                             currentClick.isFlagged = false;
+                            flagsCounter++;
                         }
+                        
                     }
 
                     DrawCells(Game.levels.levelsList[Game.level].width, Game.levels.levelsList[Game.level].height);
+                    
                 }
             }
         }
@@ -102,7 +106,7 @@ namespace Minesweeper___game.Models
 
             Game.level = difficulty;
             Board.cells.GenerateCels(tableCellsX, tableCellsY, CellsStartingPoint, CellsStartingPoint);
-
+            flagsCounter = Game.levels.levelsList[difficulty].mines;
             this.Controls.Clear();
             this.ClientSize = new System.Drawing.Size(windowWidth, windowHeight);
             this.CenterToScreen();
@@ -118,7 +122,8 @@ namespace Minesweeper___game.Models
         {
             Rectangle cell;
             SolidBrush brush = new SolidBrush(Color.Gray);
-
+            Rectangle flagBox;
+            SolidBrush flagBrush = new SolidBrush(Color.Blue);
             int brushPositionX = CellsStartingPoint;
             int brushPositionY = CellsStartingPoint;
 
@@ -165,6 +170,12 @@ namespace Minesweeper___game.Models
                 brushPositionX = CellsStartingPoint;
                 brushPositionY += 21;
             }
+            Font drawFlagFont = new Font("Arial", 15);
+            SolidBrush drawFlagBrush = new SolidBrush(Color.Black);
+            flagBox = new Rectangle(200, 200, 30, 25);
+
+            g.FillRectangle(flagBrush, flagBox);
+            g.DrawString(flagsCounter.ToString(), drawFlagFont, drawFlagBrush, 200, 200);
         }
         //Method to stop redraw when press ALT
         protected override void WndProc(ref Message m)
@@ -180,7 +191,8 @@ namespace Minesweeper___game.Models
             int windowHeight = Game.levels.levelsList[Game.level].height * 30;
             int tableCellsX = windowWidth / 30;
             int tableCellsY = windowHeight / 30;
-            
+            flagsCounter = Game.levels.levelsList[Game.level].mines;
+
             Board.cells.GenerateCels(tableCellsX, tableCellsY, CellsStartingPoint, CellsStartingPoint);
             DrawCells(tableCellsX, tableCellsY);
         }
